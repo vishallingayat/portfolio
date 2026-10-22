@@ -516,6 +516,123 @@
 
 
         /* =====================================================
+           SHOWREEL
+        ===================================================== */
+        #section-showreel {
+            padding: 7rem 10vw 3rem;
+        }
+
+        .showreel-wrap {
+            position: relative;
+            margin-right: 1.2rem;
+        }
+
+        /* Offset accent block behind the video */
+        .showreel-wrap::before {
+            content: '';
+            position: absolute;
+            width: 40%;
+            height: 60%;
+            right: -1.2rem;
+            bottom: -1.2rem;
+            background: var(--accent-color);
+        }
+
+        .showreel-wrap video {
+            position: relative;
+            display: block;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #000;
+            border: 1px solid rgba(255,255,255,0.07);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+        }
+
+        /* Play button / loading overlay */
+        .reel-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.4rem;
+            background: rgba(11,11,11,0.5);
+            border: none;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: opacity 0.4s var(--easing), background 0.4s;
+        }
+
+        .reel-overlay:hover {
+            background: rgba(11,11,11,0.3);
+        }
+
+        .reel-play {
+            position: relative;
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            animation: reelPulse 2s infinite;
+            transition: transform 0.3s var(--easing);
+        }
+
+        /* Triangle play icon */
+        .reel-play::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-35%, -50%);
+            border-style: solid;
+            border-width: 14px 0 14px 22px;
+            border-color: transparent transparent transparent var(--text-main);
+        }
+
+        .reel-overlay:hover .reel-play {
+            transform: scale(1.08);
+        }
+
+        @keyframes reelPulse {
+            0%   { box-shadow: 0 0 0 0 rgba(47,123,255,0.5); }
+            70%  { box-shadow: 0 0 0 22px rgba(47,123,255,0); }
+            100% { box-shadow: 0 0 0 0 rgba(47,123,255,0); }
+        }
+
+        .reel-spinner {
+            display: none;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.15);
+            border-top-color: var(--accent-color);
+            animation: reelSpin 0.9s linear infinite;
+        }
+
+        @keyframes reelSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        .reel-label {
+            font-family: var(--font-head);
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .reel-overlay.is-loading { cursor: progress; }
+        .reel-overlay.is-loading .reel-play { display: none; }
+        .reel-overlay.is-loading .reel-spinner { display: block; }
+
+        .reel-overlay.is-hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+
+        /* =====================================================
            SECTION 3 — RENDERS (gallery)
         ===================================================== */
         #section-renders {
@@ -884,6 +1001,19 @@
                 padding: 5.5rem 6vw 3rem;
             }
 
+            #section-showreel {
+                padding: 5.5rem 6vw 3rem;
+            }
+
+            .showreel-wrap {
+                margin-right: 0.6rem;
+            }
+
+            .showreel-wrap::before {
+                right: -0.6rem;
+                bottom: -0.6rem;
+            }
+
             #section-renders {
                 padding: 5.5rem 6vw 3rem;
             }
@@ -1043,6 +1173,7 @@
             <li><a href="#section-home" data-section="home" class="active" onclick="showSection('home'); return false;">Home</a></li>
             <li><a href="#section-experience" data-section="experience" onclick="showSection('experience'); return false;">Experience &amp; Details</a></li>
             <li><a href="#section-renders" data-section="renders" onclick="showSection('renders'); return false;">Renders</a></li>
+            <li><a href="#section-showreel" data-section="showreel" onclick="showSection('showreel'); return false;">Showreel</a></li>
             <li><a href="#section-contact" data-section="contact" onclick="showSection('contact'); return false;">Contact</a></li>
         </ul>
         <button class="hamburger" id="hamburger-btn" aria-label="Toggle navigation">
@@ -1057,6 +1188,7 @@
             <li><a href="#section-home" data-section="home" class="active" onclick="closeMobileMenu(); showSection('home'); return false;">Home</a></li>
             <li><a href="#section-experience" data-section="experience" onclick="closeMobileMenu(); showSection('experience'); return false;">Experience &amp; Details</a></li>
             <li><a href="#section-renders" data-section="renders" onclick="closeMobileMenu(); showSection('renders'); return false;">Renders</a></li>
+            <li><a href="#section-showreel" data-section="showreel" onclick="closeMobileMenu(); showSection('showreel'); return false;">Showreel</a></li>
             <li><a href="#section-contact" data-section="contact" onclick="closeMobileMenu(); showSection('contact'); return false;">Contact</a></li>
         </ul>
     </div>
@@ -1076,7 +1208,8 @@
                 clean topology, optimized assets, and high-quality textures.
             </p>
             <div class="hero-cta">
-                <a href="#section-renders" class="btn" onclick="showSection('renders'); return false;">View Renders</a>
+                <a href="#section-showreel" class="btn" onclick="showSection('showreel'); return false;">Watch Showreel</a>
+                <a href="#section-renders" class="btn btn-outline" onclick="showSection('renders'); return false;">View Renders</a>
                 <a href="#section-contact" class="btn btn-outline" onclick="showSection('contact'); return false;">Get In Touch</a>
             </div>
         </section>
@@ -1198,6 +1331,25 @@
             </p>
             <div class="render-filters" id="render-filters"></div>
             <div class="render-grid" id="render-grid"></div>
+        </section>
+
+
+        <section id="section-showreel" class="page-section">
+            <h2 class="section-heading">Show<span>reel</span></h2>
+            <div class="section-divider"></div>
+            <p class="renders-intro">
+                A quick look at my modeling, texturing, lighting and rendering work.
+                Press play to watch &mdash; best with sound and in full screen.
+            </p>
+            <div class="showreel-wrap">
+                <video id="showreel-video" src="video/showreelv1_compressed.mp4"
+                       poster="renders/robot%20R1.webp" loop playsinline preload="none"></video>
+                <button class="reel-overlay" id="reel-overlay" aria-label="Play showreel">
+                    <span class="reel-play"></span>
+                    <span class="reel-spinner"></span>
+                    <span class="reel-label">Play Showreel</span>
+                </button>
+            </div>
         </section>
 
 
@@ -1594,6 +1746,48 @@
             if (e.key === 'ArrowLeft')  stepLightbox(-1);
             if (e.key === 'ArrowRight') stepLightbox(1);
         });
+
+
+        /* =====================================================
+           SHOWREEL — play button, loading spinner until the video can play
+        ===================================================== */
+        const reel        = document.getElementById('showreel-video');
+        const reelOverlay = document.getElementById('reel-overlay');
+        const reelLabel   = reelOverlay.querySelector('.reel-label');
+
+        function setReelLoading(isLoading) {
+            reelOverlay.classList.toggle('is-loading', isLoading);
+            reelLabel.textContent = isLoading ? 'Loading…' : 'Play Showreel';
+        }
+
+        // Video only starts downloading once the play button is pressed
+        reelOverlay.addEventListener('click', () => {
+            setReelLoading(true);
+            reel.controls = true;
+            if (reel.error) reel.load();
+            reel.play().catch(() => setReelLoading(false));
+        });
+
+        // Show the spinner again if playback stalls while buffering
+        reel.addEventListener('waiting', () => {
+            reelOverlay.classList.remove('is-hidden');
+            setReelLoading(true);
+        });
+
+        reel.addEventListener('playing', () => {
+            setReelLoading(false);
+            reelOverlay.classList.add('is-hidden');
+        });
+
+        reel.addEventListener('error', () => {
+            setReelLoading(false);
+            reelLabel.textContent = 'Couldn’t load video — tap to retry';
+        });
+
+        // Pause when scrolled out of view
+        new IntersectionObserver(([entry]) => {
+            if (!entry.isIntersecting && !reel.paused) reel.pause();
+        }, { threshold: 0.25 }).observe(reel);
 
 
         /* =====================================================
